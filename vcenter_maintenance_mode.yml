@@ -9,7 +9,7 @@
         hostname: nevcenter-lab.stone.ne.gov
         username: "{{ vcenter_username }}"
         password: "{{ vcenter_password }}"
-        esxi_hostname: "{{ esxi_hostname }}"
+        esxi_hostname: nevhlabls1b02.ne.gov
         vsan: ensureObjectAccessibility
         evacuate: true
         timeout: 3600
