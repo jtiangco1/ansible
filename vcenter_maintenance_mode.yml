@@ -1,6 +1,6 @@
 ---
-name: vcenter-maintenance-mode
-host: localhost
+name: vcenter maintenance mode
+hosts: localhost
 become: false
 
 tasks:
