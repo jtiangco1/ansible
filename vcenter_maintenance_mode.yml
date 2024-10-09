@@ -10,7 +10,7 @@
         username: "{{ vcenter_username }}"
         password: "{{ vcenter_password }}"
         esxi_hostname: "{{ esxi_hostname }}"
-        vsan: ensureObjectAccessibility
+#        vsan: ensureObjectAccessibility
         evacuate: true
         validate_certs: no 
         timeout: 3600
