@@ -37,7 +37,11 @@
         schema: vsphere
       register: host_facts
       delegate_to: localhost
-
+   
+    - name: The output of Product, Version, Build, Update info for ESXi
+       debug:
+         msg:
+           - "Host : {{ host_facts }}"
 
 
 #    - name: Change Log level configuration of the given hostsystem
