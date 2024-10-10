@@ -37,11 +37,18 @@
         schema: vsphere
       register: host_facts
       delegate_to: localhost
+
+    - name: Extract update level info from option properties
+      set_fact:
+        update_level_info: "{{ item.value }}"
+      loop: "{{ gather_host_facts_result.ansible_facts.config.option }}"
+      when:
+        - item.key == 'Misc.HostAgentUpdateLevel'
    
     - name: The output of Product, Version, Build, Update info for ESXi
-       debug:
          msg:
            - "Host : {{ host_facts }}"
+           - "Update : {{ update_level_info }}
 
 
 #    - name: Change Log level configuration of the given hostsystem
