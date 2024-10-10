@@ -6,7 +6,7 @@
   tasks:
     - name: Enter VSAN-Compliant Maintenance Mode
       community.vmware.vmware_maintenancemode:
-        hostname: nevcenter-lab.stone.ne.gov
+        hostname: nevcenter-lab.ne.gov
         username: "{{ vcenter_username }}"
         password: "{{ vcenter_password }}"
         esxi_hostname: "{{ esxi_hostname }}"
