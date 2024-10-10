@@ -36,19 +36,8 @@
         show_tag: true
         schema: vsphere
       register: host_facts
-      delegate_to: localhost
-
-    - name: Gather vmware host ID from vCenter
-      community.vmware.vmware_host_facts:
-        hostname: "{{ vcenter_server }}"
-        username: "{{ vcenter_user }}"
-        password: "{{ vcenter_pass }}"
-        esxi_hostname: "{{ esxi_hostname }}"
-        show_tag: true
-        schema: vsphere
-        properties:
-          - name
-      register: host_id
+    - set_fact:
+        host_id: "{{ host_facts['ansible_facts']['_vimid'] }}"
       delegate_to: localhost
 
     - name: Extract update level info from option properties
