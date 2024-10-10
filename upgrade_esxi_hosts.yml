@@ -41,7 +41,7 @@
     - name: Extract update level info from option properties
       set_fact:
         update_level_info: "{{ item.value }}"
-      loop: "{{ gather_host_facts_result.ansible_facts.config.option }}"
+      loop: "{{ host_facts.ansible_facts.config.option }}"
       when:
         - item.key == 'Misc.HostAgentUpdateLevel'
    
