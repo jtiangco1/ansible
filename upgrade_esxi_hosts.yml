@@ -52,14 +52,3 @@
            - "Update : {{ update_level_info }}
 
 
-#    - name: Change Log level configuration of the given hostsystem
-#      vmware_host_config_manager:
-#        hostname: "{{ vcenter_server }}"
-#        username: "{{ vcenter_user }}"
-#        password: "{{ vcenter_pass }}"
-#        esxi_hostname: "{{ item.name }}"
-#        options:
-#          'Config.HostAgent.log.level': 'error'
-#        validate_certs: no
-#      loop: "{{ vchosts.json.value }}"
-#      register: host_config_results
