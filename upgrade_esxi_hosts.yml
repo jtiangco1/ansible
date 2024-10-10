@@ -48,7 +48,7 @@
     - name: The output of Product, Version, Build, Update info for ESXi
       debug:
         msg:
-           - "Host : {{ host_facts }}"
-           - "Update : {{ update_level_info }}
+        - "Host : {{ host_facts }}"
+        - "Update : {{ update_level_info }}
 
 
