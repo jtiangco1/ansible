@@ -5,7 +5,7 @@
 
   tasks:
     - name: Export facts from datastore
-      vmware_datastore_info:
+      community.vmware.vmware_datastore_info:
         hostname: "{{ hostname }}"
         username: '{{ username }}'
         password: "{{ password }}"
