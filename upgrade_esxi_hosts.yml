@@ -26,14 +26,26 @@
           Cookie: "{{ login.set_cookie }}"
       register: vchosts
 
-    - name: Change Log level configuration of the given hostsystem
-      vmware_host_config_manager:
-        hostname: "{{ vcenter_server }}"
-        username: "{{ vcenter_user }}"
-        password: "{{ vcenter_pass }}"
-        esxi_hostname: "{{ item.name }}"
-        options:
-          'Config.HostAgent.log.level': 'error'
-        validate_certs: no
-      loop: "{{ vchosts.json.value }}"
-      register: host_config_results
+
+    - name: Gather vmware host facts from vCenter
+      community.vmware.vmware_host_facts:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        esxi_hostname: "{{ esxi_hostname }}"
+      register: host_facts
+      delegate_to: localhost
+
+
+
+#    - name: Change Log level configuration of the given hostsystem
+#      vmware_host_config_manager:
+#        hostname: "{{ vcenter_server }}"
+#        username: "{{ vcenter_user }}"
+#        password: "{{ vcenter_pass }}"
+#        esxi_hostname: "{{ item.name }}"
+#        options:
+#          'Config.HostAgent.log.level': 'error'
+#        validate_certs: no
+#      loop: "{{ vchosts.json.value }}"
+#      register: host_config_results
