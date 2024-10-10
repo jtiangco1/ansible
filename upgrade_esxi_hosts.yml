@@ -46,7 +46,8 @@
         - item.key == 'Misc.HostAgentUpdateLevel'
    
     - name: The output of Product, Version, Build, Update info for ESXi
-         msg:
+      debug:
+        msg:
            - "Host : {{ host_facts }}"
            - "Update : {{ update_level_info }}
 
