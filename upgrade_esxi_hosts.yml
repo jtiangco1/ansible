@@ -1,0 +1,14 @@
+# Playbook to upgrade ESXi hosts
+- name: Upgrade ESXI Hosts
+  hosts: localhost
+  become: no
+
+  tasks:
+    - name: Upgrade ESXi Image
+      shell: uptime
+      register: upgrade_output
+
+    - name: Display the output of the 'upgrade_output' command
+      debug:
+        msg: "Upgrade Result: {{ upgrade_output.stdout }}"
+        
