@@ -1,11 +1,15 @@
+---
+- name: vcenter datastore info
+  hosts: all
+  become: false
 
-
-- name: Export facts from datastore
-  vmware_datastore_info:
-    hostname: "{{ hostname }}"
-    username: '{{ domain_user }}'
-    password: "{{domain_password}}"
-    datacenter: "{{ datacenter }}"
-    validate_certs: no
-  delegate_to: localhost
-  register: datastore_facts
+  tasks:
+    - name: Export facts from datastore
+      vmware_datastore_info:
+        hostname: "{{ hostname }}"
+        username: '{{ domain_user }}'
+        password: "{{domain_password}}"
+        datacenter: "{{ datacenter }}"
+        validate_certs: no
+      delegate_to: localhost
+      register: datastore_facts
