@@ -47,7 +47,7 @@
         show_tag: true
         schema: vsphere
         properties:
-          - vim.HostSystem
+          - name
       register: host_id
       delegate_to: localhost
 
