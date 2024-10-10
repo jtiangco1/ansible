@@ -7,8 +7,8 @@
     - name: Export facts from datastore
       vmware_datastore_info:
         hostname: "{{ hostname }}"
-        username: '{{ domain_user }}'
-        password: "{{domain_password}}"
+        username: '{{ username }}'
+        password: "{{ password }}"
         datacenter: "{{ datacenter }}"
         validate_certs: no
       delegate_to: localhost
