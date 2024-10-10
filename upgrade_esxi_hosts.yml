@@ -49,6 +49,6 @@
       debug:
         msg:
         - "Host : {{ host_facts }}"
-        - "Update : {{ update_level_info }}
+        - "Update : {{ update_level_info }}"
 
 
