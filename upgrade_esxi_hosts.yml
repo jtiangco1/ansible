@@ -17,15 +17,9 @@
         password: "{{ vcenter_pass }}"
       register: login
 
-    - name: Get all hosts from vCenter using cookies from last task
-      uri:
-        url: https://{{ vcenter_server }}/rest/vcenter/host
-        force_basic_auth: yes
-        validate_certs: no
-        headers:
-          Cookie: "{{ login.set_cookie }}"
-      register: vchosts
-
+    - name: Set session ID as fact
+      set_fact:
+        vcsa_session_id: "{{ vcsa_session.json.value }}"        
 
     - name: Gather vmware host facts from vCenter
       community.vmware.vmware_host_facts:
@@ -53,4 +47,60 @@
         - "Host_ID : {{ host_id }}"
         - "Update : {{ update_level_info }}"
 
+    - name: Attach upgrade baseline to the ESXi host
+      uri:
+        url: "{{ vcenter_server }}/rest/com/vmware/esx/settings/hosts/{{ host_id }}/software"
+        method: PATCH
+        headers:
+          vmware-api-session-id: "{{ vcsa_session_id }}"
+          Content-Type: "application/json"
+        body_format: json
+        body:
+          spec: {
+            "add_baselines": [ "{{ target_baseline_id }}" ]
+          }
+        validate_certs: no
+      register: attach_baseline_response
 
+    - name: Start upgrade compliance scan
+      uri:
+        url: "{{ vcenter_server }}/rest/com/vmware/esx/settings/hosts/{{ host_id }}/scan"
+        method: POST
+        headers:
+          vmware-api-session-id: "{{ vcsa_session_id }}"
+          Content-Type: "application/json"
+        validate_certs: no
+      register: scan_response
+
+    - name: Start remediation (upgrade) on the ESXi host
+      uri:
+        url: "{{ vcenter_server }}/rest/com/vmware/esx/settings/hosts/{{ host_id }}/remediate"
+        method: POST
+        headers:
+          vmware-api-session-id: "{{ vcsa_session_id }}"
+          Content-Type: "application/json"
+        body_format: json
+        body:
+          spec: {
+            "apply_baselines": [ "{{ target_baseline_id }}" ]
+          }
+        validate_certs: no
+      register: remediate_response
+
+    - name: Monitor the upgrade status
+      uri:
+        url: "{{ vcenter_server }}/rest/com/vmware/esx/settings/hosts/{{ host_id }}/task/{{ remediate_response.json.value }}"
+        method: GET
+        headers:
+          vmware-api-session-id: "{{ vcsa_session_id }}"
+          Content-Type: "application/json"
+        validate_certs: no
+      register: upgrade_status
+      until: upgrade_status.json.value.state == "completed"
+      retries: 10
+      delay: 60
+
+    - name: Display upgrade status
+      debug:
+        msg: "Upgrade completed with status: {{ upgrade_status.json.value.state }}"
+      
