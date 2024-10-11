@@ -15,7 +15,7 @@
         method: POST
         user: "{{ vcenter_user }}"
         password: "{{ vcenter_pass }}"
-      register: login
+      register: vcsa_session
 
     - name: Set session ID as fact
       set_fact:
