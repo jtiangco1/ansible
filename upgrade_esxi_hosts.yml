@@ -56,7 +56,7 @@
           Content-Type: "application/json"
         body_format: json
         body:
-     spec: {
+          spec: {
             "apply_state": "APPLY",  # Other options: "PRECHECK_ONLY" for dry run
             "image_spec": {
               # Define the details of the image you want to apply.
