@@ -20,8 +20,7 @@
     - name: Set session ID as fact
       set_fact:
         vcsa_session_id: "{{ vcsa_session.json.value }}"        
-    - name: Set Cluster ID
-      
+        
     - name: Gather vmware host facts from vCenter
       community.vmware.vmware_host_facts:
         hostname: "{{ vcenter_server }}"
