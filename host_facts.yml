@@ -24,6 +24,7 @@
         username: "{{ vcenter_username }}"
         password: "{{ vcenter_password }}"
         esxi_hostname: "{{ esxi_hostname }}"
+        validate_certs: no
         show_tag: true
         schema: vsphere
       register: host_facts
