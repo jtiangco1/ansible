@@ -64,12 +64,13 @@
               # Replace with your image details or image content if needed.
               "base_image": "{{ target_image }}"
             }
-          }
-                 "hosts" : [
-                     " {{ host_id }} "
+          
+            "hosts" : [
+               " {{ host_id }} "
                  ],
-                     "commit" : " {{ host_id }} ",
-                     "accept_eula" : true
+                  "commit" : " {{ host_id }} ",
+                  "accept_eula" : true
+                }
         validate_certs: no
       register: apply_image_task
 
