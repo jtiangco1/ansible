@@ -32,7 +32,7 @@
       register: host_facts
     - set_fact:
         host_id: "{{ host_facts['ansible_facts']['_vimid'] }}"
-        cluster_id: "{{ host_facts['ansible_facts'][computeResource]['vim.ClusterComputeResource'] }}"
+        cluster_id: "{{ host_facts['ansible_facts']['computeResource']['vim.ClusterComputeResource'] }}"
       delegate_to: localhost
 
     - name: Extract update level info from option properties
