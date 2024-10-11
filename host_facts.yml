@@ -4,6 +4,20 @@
   become: false
 
   tasks:
+      - name: Login into vCenter and get cookies
+      uri:
+        url: https://{{ vcenter_hostname }}/rest/com/vmware/cis/session
+        force_basic_auth: yes
+        validate_certs: no
+        method: POST
+        user: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+      register: vcsa_session
+
+    - name: Set session ID as fact
+      set_fact:
+        vcsa_session_id: "{{ vcsa_session.json.value }}"   
+        
     - name: Gather vmware host facts from vCenter
       community.vmware.vmware_host_facts:
         hostname: "{{ vcenter_hostname }}"
