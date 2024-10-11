@@ -64,7 +64,6 @@
               # Replace with your image details or image content if needed.
               "base_image": "{{ target_image }}"
             }
-          
             "hosts" : [
                " {{ host_id }} "
                  ],
