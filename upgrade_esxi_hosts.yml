@@ -56,9 +56,15 @@
           Content-Type: "application/json"
         body_format: json
         body:
-          [
-            ?action=apply
-            &vmw-task=true
+     spec: {
+            "apply_state": "APPLY",  # Other options: "PRECHECK_ONLY" for dry run
+            "image_spec": {
+              # Define the details of the image you want to apply.
+              # This example assumes you're using a predefined image ID
+              # Replace with your image details or image content if needed.
+              "base_image": "{{ target_image }}"
+            }
+          }
             {
                  "hosts" : [
                      " {{ host_id }} "
@@ -66,7 +72,6 @@
                      "commit" : " {{ host_id }} ",
                      "accept_eula" : true
             }
-          ]  
         validate_certs: no
       register: apply_image_task
 
