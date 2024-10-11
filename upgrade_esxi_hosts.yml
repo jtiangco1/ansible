@@ -6,6 +6,9 @@
     - vcenter_vars.yml
   vars:
     ansible_python_interpreter: "/usr/bin/env python3"
+    cluster_name:
+      LNK-LAB
+      OMA-LAB
   tasks:
     - name: Login into vCenter and get cookies
       uri:
@@ -20,7 +23,8 @@
     - name: Set session ID as fact
       set_fact:
         vcsa_session_id: "{{ vcsa_session.json.value }}"        
-
+    - name: Set Cluster ID
+      
     - name: Gather vmware host facts from vCenter
       community.vmware.vmware_host_facts:
         hostname: "{{ vcenter_server }}"
@@ -32,6 +36,7 @@
       register: host_facts
     - set_fact:
         host_id: "{{ host_facts['ansible_facts']['_vimid'] }}"
+        cluster_id: "{{ host_facts['ansible_facts']['vim.ClusterComputeResource'] }}"
       delegate_to: localhost
 
     - name: Extract update level info from option properties
