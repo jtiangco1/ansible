@@ -6,9 +6,6 @@
     - vcenter_vars.yml
   vars:
     ansible_python_interpreter: "/usr/bin/env python3"
-    cluster_name:
-      LNK-LAB
-      OMA-LAB
   tasks:
     - name: Login into vCenter and get cookies
       uri:
