@@ -56,18 +56,15 @@
           Content-Type: "application/json"
         body_format: json
         body:
-          spec: {
             ?action=apply
             &vmw-task=true
             {
                  "hosts" : [
                      " {{ host_id }} "
                  ],
-                     "commit" : "obj-103",
+                     "commit" : " {{ host_id }} ",
                      "accept_eula" : true
             }
-            }
-          }
         validate_certs: no
       register: apply_image_task
 
