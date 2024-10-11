@@ -47,34 +47,9 @@
         - "Host_ID : {{ host_id }}"
         - "Update : {{ update_level_info }}"
 
-    - name: Attach upgrade baseline to the ESXi host
+  - name: Apply the desired image to the ESXi hosts in the cluster
       uri:
-        url: "https://{{ vcenter_server }}/rest/com/vmware/esx/settings/hosts/{{ host_id }}/software"
-        method: PATCH
-        headers:
-          vmware-api-session-id: "{{ vcsa_session_id }}"
-          Content-Type: "application/json"
-        body_format: json
-        body:
-          spec: {
-            "add_baselines": [ "{{ target_baseline_id }}" ]
-          }
-        validate_certs: no
-      register: attach_baseline_response
-
-    - name: Start upgrade compliance scan
-      uri:
-        url: "https://{{ vcenter_server }}/rest/com/vmware/esx/settings/hosts/{{ host_id }}/scan"
-        method: POST
-        headers:
-          vmware-api-session-id: "{{ vcsa_session_id }}"
-          Content-Type: "application/json"
-        validate_certs: no
-      register: scan_response
-
-    - name: Start remediation (upgrade) on the ESXi host
-      uri:
-        url: "https://{{ vcenter_server }}/rest/com/vmware/esx/settings/hosts/{{ host_id }}/remediate"
+        url: "{{ vcenter_server }}/api/esx/settings/clusters/{{ cluster_id }}/software/apply-task"
         method: POST
         headers:
           vmware-api-session-id: "{{ vcsa_session_id }}"
@@ -82,25 +57,33 @@
         body_format: json
         body:
           spec: {
-            "apply_baselines": [ "{{ target_baseline_id }}" ]
+            "hosts" :
+                " {{ host_id }} "
+            "apply_state": "APPLY",  # Other options: "PRECHECK_ONLY" for dry run
+            "image_spec": {
+              # Define the details of the image you want to apply.
+              # This example assumes you're using a predefined image ID
+              # Replace with your image details or image content if needed.
+              "base_image": "{{ target_image }}"
+            }
           }
         validate_certs: no
-      register: remediate_response
+      register: apply_image_task
 
-    - name: Monitor the upgrade status
+    - name: Monitor the task status for image application
       uri:
-        url: "https://{{ vcenter_server }}/rest/com/vmware/esx/settings/hosts/{{ host_id }}/task/{{ remediate_response.json.value }}"
+        url: "{{ vcenter_server }}/rest/vcenter/task/{{ apply_image_task.json.value }}"
         method: GET
         headers:
           vmware-api-session-id: "{{ vcsa_session_id }}"
           Content-Type: "application/json"
         validate_certs: no
-      register: upgrade_status
-      until: upgrade_status.json.value.state == "completed"
+      register: task_status
+      until: task_status.json.value.state == "completed"
       retries: 10
       delay: 60
 
-    - name: Display upgrade status
+    - name: Display the final task status
       debug:
-        msg: "Upgrade completed with status: {{ upgrade_status.json.value.state }}"
-      
+        msg: "Image update task completed with status: {{ task_status.json.value.state }}"
+        
