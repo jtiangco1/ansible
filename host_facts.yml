@@ -1,7 +1,7 @@
 ---
-- name: Get Host Facts
+- name: vcenter info
   hosts: localhost
-  gather_facts: no
+  become: false
 
   - name: Gather vmware host facts from vCenter
     community.vmware.vmware_host_facts:
