@@ -49,27 +49,13 @@
 
     - name: Apply the desired image to the ESXi hosts in the cluster
       uri:
-        url: "{{ vcenter_server }}/api/esx/settings/clusters/{{ cluster_id }}/software"
+        url: "{{ vcenter_server }}/api/esx/settings/clusters/{{ cluster_id }}/software?action=apply&vmw-task=true"
         method: POST
         headers:
           vmware-api-session-id: "{{ vcsa_session_id }}"
           Content-Type: "application/json"
         body_format: json
-        body:
-          spec: {
-            "hosts": [
-               " {{ host_id }} "
-                 ],
-                  "commit" : " {{ host_id }} ",
-                  "accept_eula" : true
-            "apply_state": "APPLY",  # Other options: "PRECHECK_ONLY" for dry run
-            "image_spec": {
-              # Define the details of the image you want to apply.
-              # This example assumes you're using a predefined image ID
-              # Replace with your image details or image content if needed.
-              "base_image": "{{ target_image }}"
-            }
-                }
+        body: '{"accept_eula":true,"hosts":["{ host_id }"]}'
         validate_certs: no
       register: apply_image_task
 
