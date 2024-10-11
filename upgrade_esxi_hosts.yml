@@ -50,7 +50,7 @@
 
     - name: Apply the desired image to the ESXi hosts in the cluster
       uri:
-        url: "https://{{ vcenter_server }}/api/esx/settings/clusters/ClusterComputerResource-{{ cluster_id }}/software?action=apply&vmw-task=true"
+        url: "https://{{ vcenter_server }}/api/esx/settings/clusters/{{ cluster_id }}/software?action=apply&vmw-task=true"
         method: POST
         headers:
           vmware-api-session-id: "{{ vcsa_session_id }}"
