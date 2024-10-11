@@ -16,4 +16,4 @@
     - name: The output of Product, Version, Build, Update info for ESXi
       debug:
         msg:
-          - "Output" : {{ host_facts }}
+          - "Output : {{ host_facts }}"
