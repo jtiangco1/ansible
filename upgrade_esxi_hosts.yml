@@ -49,7 +49,7 @@
 
     - name: Attach upgrade baseline to the ESXi host
       uri:
-        url: "{{ vcenter_server }}/rest/com/vmware/esx/settings/hosts/{{ host_id }}/software"
+        url: "https://{{ vcenter_server }}/rest/com/vmware/esx/settings/hosts/{{ host_id }}/software"
         method: PATCH
         headers:
           vmware-api-session-id: "{{ vcsa_session_id }}"
@@ -64,7 +64,7 @@
 
     - name: Start upgrade compliance scan
       uri:
-        url: "{{ vcenter_server }}/rest/com/vmware/esx/settings/hosts/{{ host_id }}/scan"
+        url: "https://{{ vcenter_server }}/rest/com/vmware/esx/settings/hosts/{{ host_id }}/scan"
         method: POST
         headers:
           vmware-api-session-id: "{{ vcsa_session_id }}"
@@ -74,7 +74,7 @@
 
     - name: Start remediation (upgrade) on the ESXi host
       uri:
-        url: "{{ vcenter_server }}/rest/com/vmware/esx/settings/hosts/{{ host_id }}/remediate"
+        url: "https://{{ vcenter_server }}/rest/com/vmware/esx/settings/hosts/{{ host_id }}/remediate"
         method: POST
         headers:
           vmware-api-session-id: "{{ vcsa_session_id }}"
@@ -89,7 +89,7 @@
 
     - name: Monitor the upgrade status
       uri:
-        url: "{{ vcenter_server }}/rest/com/vmware/esx/settings/hosts/{{ host_id }}/task/{{ remediate_response.json.value }}"
+        url: "https://{{ vcenter_server }}/rest/com/vmware/esx/settings/hosts/{{ host_id }}/task/{{ remediate_response.json.value }}"
         method: GET
         headers:
           vmware-api-session-id: "{{ vcsa_session_id }}"
