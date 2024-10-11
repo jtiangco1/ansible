@@ -56,7 +56,7 @@
           vmware-api-session-id: "{{ vcsa_session_id }}"
           Content-Type: "application/json"
         body_format: json
-        body: {"accept_eula":true,"hosts":["{ host_id }"]}
+        body: {"accept_eula":true,"hosts":["{{ host_id }}"]}
         validate_certs: no
       register: apply_image_task
 
