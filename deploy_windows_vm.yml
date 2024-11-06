@@ -1,0 +1,31 @@
+- name: Clone a virtual machine from Windows template and customize
+  community.vmware.vmware_guest:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    datacenter: datacenter1
+    cluster: cluster
+    name: "{{ vm_name }}"
+    template: "{{ windows_template }}"
+    networks:
+    - name: VM Network
+      ip: 192.168.1.100
+      netmask: 255.255.255.0
+      gateway: 192.168.1.1
+      domain: "{{ vm_domain }}"
+      dns_servers:
+      - 192.168.1.1
+      - 192.168.1.2
+    - vlan: 1234
+      type: dhcp
+    customization:
+      autologon: true
+      dns_servers:
+      - 192.168.1.1
+      - 192.168.1.2
+      domain: my_domain
+      password: new_vm_password
+      runonce:
+      - powershell.exe -ExecutionPolicy Unrestricted -File C:\Windows\Temp\ConfigureRemotingForAnsible.ps1 -ForceNewSSLCert -EnableCredSSP
+  delegate_to: localhost
+  
