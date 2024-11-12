@@ -1,27 +1,33 @@
-- name:  Clone a virtual machine from Linux template and customize
-  community.vmware.vmware_guest:
-    hostname: "{{ vcenter_hostname }}"
-    username: "{{ vcenter_username }}"
-    password: "{{ vcenter_password }}"
-    datacenter: "{{ datacenter }}"
-    state: present
-    folder: /NE/Test
-    template: "{{ template }}"
-    name: "{{ vm_name }}"
-    cluster: LNKK-LAB
-    networks:
-      - name: "{{ vlan_id }}"
-        ip: "{{ ip_address }}"
-        netmask: 255.255.255.0
-    wait_for_ip_address: true
-    customization:
-      domain: "{{ guest_domain }}"
-      dns_servers:
-        - "{{ dns_1 }}"
-        - "{{ dns_2 }}"
-      dns_suffix:
-        - stnvdi.local
-      script_text: |
-        #!/bin/bash
-        touch /tmp/touch-from-playbook
-  delegate_to: localhost
+---
+- name: vcenter info
+  hosts: localhost
+  become: false
+
+  tasks:
+    - name:  Clone a virtual machine from Linux template and customize
+      community.vmware.vmware_guest:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        datacenter: "{{ datacenter }}"
+        state: present
+        folder: /NE/Test
+        template: "{{ template }}"
+        name: "{{ vm_name }}"
+        cluster: LNKK-LAB
+        networks:
+          - name: "{{ vlan_id }}"
+            ip: "{{ ip_address }}"
+            netmask: 255.255.255.0
+        wait_for_ip_address: true
+        customization:
+          domain: "{{ guest_domain }}"
+          dns_servers:
+            - "{{ dns_1 }}"
+            - "{{ dns_2 }}"
+          dns_suffix:
+            - stnvdi.local
+          script_text: |
+            #!/bin/bash
+            touch /tmp/touch-from-playbook
+      delegate_to: localhost
