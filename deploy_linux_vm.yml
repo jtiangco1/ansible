@@ -22,8 +22,8 @@
             ip: "{{ ip_address }}"
             netmask: 255.255.255.0
             gateway: "{{ gateway_address }}"
-            connected: yes
-            start_connected: yes
+            connected: true
+            start_connected: true
         wait_for_ip_address: true
         customization:
           hostname: "{{ vm_name }}"
