@@ -18,9 +18,11 @@
         cluster: LNK-LAB
         networks:
           - name: "{{ vlan_id }}"
+            type: static
             ip: "{{ ip_address }}"
-            gateway: "{{ gateway_address }}"
             netmask: 255.255.255.0
+            gateway: "{{ gateway_address }}"
+            start_connected: yes
         wait_for_ip_address: true
         customization:
           domain: "{{ guest_domain }}"
