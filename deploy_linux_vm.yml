@@ -12,13 +12,14 @@
         datacenter: "{{ datacenter }}"
         state: present
         validate_certs: no 
-        folder: /NE/Test
+        folder: Test
         template: "{{ template }}"
         name: "{{ vm_name }}"
-        cluster: LNKK-LAB
+        cluster: LNK-LAB
         networks:
           - name: "{{ vlan_id }}"
             ip: "{{ ip_address }}"
+            gateway: "{{ gateway_address }}"
             netmask: 255.255.255.0
         wait_for_ip_address: true
         customization:
